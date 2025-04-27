@@ -1,584 +1,366 @@
-# java
-// 1) Login Screen Creation
+
+#jaaaaaaa
+// 1) Simple Login Screen
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
-public class LoginScreen extends JFrame {
-    private JTextField usernameField;
-    private JPasswordField passwordField;
-    private JButton loginButton;
-    private JLabel messageLabel;
-
-    public LoginScreen() {
-        setTitle("Login Screen");
-        setSize(300, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(4, 1, 10, 10));
-        panel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        // Username field
-        JPanel usernamePanel = new JPanel(new BorderLayout());
-        usernamePanel.add(new JLabel("Username: "), BorderLayout.WEST);
-        usernameField = new JTextField(15);
-        usernamePanel.add(usernameField, BorderLayout.CENTER);
-        
-        // Password field
-        JPanel passwordPanel = new JPanel(new BorderLayout());
-        passwordPanel.add(new JLabel("Password: "), BorderLayout.WEST);
-        passwordField = new JPasswordField(15);
-        passwordPanel.add(passwordField, BorderLayout.CENTER);
-        
-        // Login button
-        loginButton = new JButton("Login");
-        loginButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String username = usernameField.getText();
-                String password = new String(passwordField.getPassword());
-                
-                if (username.equals("admin") && password.equals("password")) {
-                    messageLabel.setText("Login successful!");
-                    messageLabel.setForeground(Color.GREEN);
-                } else {
-                    messageLabel.setText("Invalid username or password!");
-                    messageLabel.setForeground(Color.RED);
-                }
-            }
-        });
-        
-        // Message label
-        messageLabel = new JLabel("");
-        messageLabel.setHorizontalAlignment(JLabel.CENTER);
-        
-        panel.add(usernamePanel);
-        panel.add(passwordPanel);
-        panel.add(loginButton);
-        panel.add(messageLabel);
-        
-        add(panel);
-        setVisible(true);
-    }
-    
+public class SimpleLogin {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new LoginScreen();
+        // Create the main window
+        JFrame frame = new JFrame("Login");
+        frame.setSize(250, 150);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new FlowLayout());
+        
+        // Create components
+        JLabel userLabel = new JLabel("Username:");
+        JTextField userField = new JTextField(15);
+        
+        JLabel passLabel = new JLabel("Password:");
+        JPasswordField passField = new JPasswordField(15);
+        
+        JButton loginButton = new JButton("Login");
+        JLabel resultLabel = new JLabel("");
+        
+        // Add action to button
+        loginButton.addActionListener(e -> {
+            String username = userField.getText();
+            String password = new String(passField.getPassword());
+            
+            if (username.equals("admin") && password.equals("password")) {
+                resultLabel.setText("Login successful");
+                resultLabel.setForeground(Color.GREEN);
+            } else {
+                resultLabel.setText("Incorrect username or password");
+                resultLabel.setForeground(Color.RED);
             }
         });
+        
+        // Add components to frame
+        frame.add(userLabel);
+        frame.add(userField);
+        frame.add(passLabel);
+        frame.add(passField);
+        frame.add(loginButton);
+        frame.add(resultLabel);
+        
+        // Display the window
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
 
-// 2) Hospital Management Application
+// 2) Simple Hospital Management
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.ArrayList;
 
-class Patient {
-    String name;
-    int age;
-    String condition;
-    
-    public Patient(String name, int age, String condition) {
-        this.name = name;
-        this.age = age;
-        this.condition = condition;
-    }
-}
-
-public class HospitalManagement extends JFrame {
-    private ArrayList<Patient> patients = new ArrayList<>();
-    private JTextField nameField, ageField;
-    private JComboBox<String> conditionCombo;
-    private JButton addButton;
-    private JTextArea patientList;
-    
-    public HospitalManagement() {
-        setTitle("Hospital Management System");
-        setSize(500, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+public class SimpleHospital {
+    public static void main(String[] args) {
+        // Create main window
+        JFrame frame = new JFrame("Hospital Management");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
         
-        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        // Form panel
+        JPanel formPanel = new JPanel(new FlowLayout());
         
-        // Input panel
-        JPanel inputPanel = new JPanel(new GridLayout(4, 2, 5, 5));
-        inputPanel.setBorder(BorderFactory.createTitledBorder("Add Patient"));
+        JLabel nameLabel = new JLabel("Name:");
+        JTextField nameField = new JTextField(10);
         
-        inputPanel.add(new JLabel("Name:"));
-        nameField = new JTextField();
-        inputPanel.add(nameField);
+        JLabel ageLabel = new JLabel("Age:");
+        JTextField ageField = new JTextField(3);
         
-        inputPanel.add(new JLabel("Age:"));
-        ageField = new JTextField();
-        inputPanel.add(ageField);
+        JLabel conditionLabel = new JLabel("Condition:");
+        String[] conditions = {"Stable", "Critical", "Recovering"};
+        JComboBox<String> conditionBox = new JComboBox<>(conditions);
         
-        inputPanel.add(new JLabel("Condition:"));
-        String[] conditions = {"Critical", "Stable", "Recovering"};
-        conditionCombo = new JComboBox<>(conditions);
-        inputPanel.add(conditionCombo);
+        JButton addButton = new JButton("Add Patient");
         
-        addButton = new JButton("Add Patient");
-        addButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    String name = nameField.getText();
-                    int age = Integer.parseInt(ageField.getText());
-                    String condition = (String) conditionCombo.getSelectedItem();
-                    
-                    if (!name.isEmpty()) {
-                        patients.add(new Patient(name, age, condition));
-                        updatePatientList();
-                        
-                        // Clear inputs
-                        nameField.setText("");
-                        ageField.setText("");
-                    }
-                } catch (NumberFormatException ex) {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid age!");
-                }
-            }
-        });
-        inputPanel.add(new JLabel(""));
-        inputPanel.add(addButton);
+        formPanel.add(nameLabel);
+        formPanel.add(nameField);
+        formPanel.add(ageLabel);
+        formPanel.add(ageField);
+        formPanel.add(conditionLabel);
+        formPanel.add(conditionBox);
+        formPanel.add(addButton);
         
-        // Patient list panel
-        JPanel listPanel = new JPanel(new BorderLayout());
-        listPanel.setBorder(BorderFactory.createTitledBorder("Patients List"));
-        
-        patientList = new JTextArea();
+        // Patient list area
+        JTextArea patientList = new JTextArea();
         patientList.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(patientList);
-        listPanel.add(scrollPane, BorderLayout.CENTER);
         
-        mainPanel.add(inputPanel, BorderLayout.NORTH);
-        mainPanel.add(listPanel, BorderLayout.CENTER);
-        
-        add(mainPanel);
-        setVisible(true);
-    }
-    
-    private void updatePatientList() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(String.format("%-20s %-10s %-15s\n", "Name", "Age", "Condition"));
-        sb.append("------------------------------------------\n");
-        
-        for (Patient p : patients) {
-            sb.append(String.format("%-20s %-10d %-15s\n", p.name, p.age, p.condition));
-        }
-        
-        patientList.setText(sb.toString());
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new HospitalManagement();
+        // Add action to button
+        addButton.addActionListener(e -> {
+            try {
+                String name = nameField.getText();
+                int age = Integer.parseInt(ageField.getText());
+                String condition = (String) conditionBox.getSelectedItem();
+                
+                patientList.append(name + ", " + age + ", " + condition + "\n");
+                
+                nameField.setText("");
+                ageField.setText("");
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame, "Please enter a valid age");
             }
         });
+        
+        // Add panels to frame
+        frame.add(formPanel, BorderLayout.NORTH);
+        frame.add(scrollPane, BorderLayout.CENTER);
+        
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
 
-// 3) Chat Application
+// 3) Simple Chat Application
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
-public class ChatApplication extends JFrame {
-    private JTextArea chatArea;
-    private JTextField messageField;
-    private JButton sendButton;
-    private String currentUser = "User";
-    
-    public ChatApplication() {
-        setTitle("Simple Chat Application");
-        setSize(400, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
-        JPanel mainPanel = new JPanel(new BorderLayout(5, 5));
-        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+public class SimpleChat {
+    public static void main(String[] args) {
+        // Create main window
+        JFrame frame = new JFrame("Chat App");
+        frame.setSize(300, 400);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
         
         // Chat display area
-        chatArea = new JTextArea();
+        JTextArea chatArea = new JTextArea();
         chatArea.setEditable(false);
-        chatArea.setLineWrap(true);
-        chatArea.setWrapStyleWord(true);
         JScrollPane scrollPane = new JScrollPane(chatArea);
         
-        // Input panel
-        JPanel inputPanel = new JPanel(new BorderLayout(5, 0));
-        messageField = new JTextField();
-        messageField.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sendMessage();
-            }
-        });
-        
-        sendButton = new JButton("Send");
-        sendButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                sendMessage();
-            }
-        });
-        
-        inputPanel.add(messageField, BorderLayout.CENTER);
-        inputPanel.add(sendButton, BorderLayout.EAST);
-        
-        mainPanel.add(scrollPane, BorderLayout.CENTER);
-        mainPanel.add(inputPanel, BorderLayout.SOUTH);
+        // Message input area
+        JPanel inputPanel = new JPanel(new BorderLayout());
+        JTextField messageField = new JTextField();
+        JButton sendButton = new JButton("Send");
         
         // User selection
-        JPanel userPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        userPanel.add(new JLabel("Current user:"));
-        
-        JRadioButton user1 = new JRadioButton("User");
-        user1.setSelected(true);
-        JRadioButton user2 = new JRadioButton("Friend");
-        
+        JPanel userPanel = new JPanel();
+        JRadioButton user1 = new JRadioButton("User 1", true);
+        JRadioButton user2 = new JRadioButton("User 2");
         ButtonGroup userGroup = new ButtonGroup();
         userGroup.add(user1);
         userGroup.add(user2);
-        
-        user1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                currentUser = "User";
-            }
-        });
-        
-        user2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                currentUser = "Friend";
-            }
-        });
-        
         userPanel.add(user1);
         userPanel.add(user2);
         
-        mainPanel.add(userPanel, BorderLayout.NORTH);
-        
-        add(mainPanel);
-        setVisible(true);
-        
-        messageField.requestFocus();
-    }
-    
-    private void sendMessage() {
-        String message = messageField.getText().trim();
-        if (!message.isEmpty()) {
-            chatArea.append(currentUser + ": " + message + "\n");
-            messageField.setText("");
-        }
-        messageField.requestFocus();
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new ChatApplication();
+        // Add action to send button
+        sendButton.addActionListener(e -> {
+            String message = messageField.getText();
+            if (!message.isEmpty()) {
+                String user = user1.isSelected() ? "User 1" : "User 2";
+                chatArea.append(user + ": " + message + "\n");
+                messageField.setText("");
             }
         });
+        
+        // Also allow sending with Enter key
+        messageField.addActionListener(e -> sendButton.doClick());
+        
+        // Add components to panels
+        inputPanel.add(messageField, BorderLayout.CENTER);
+        inputPanel.add(sendButton, BorderLayout.EAST);
+        
+        // Add panels to frame
+        frame.add(userPanel, BorderLayout.NORTH);
+        frame.add(scrollPane, BorderLayout.CENTER);
+        frame.add(inputPanel, BorderLayout.SOUTH);
+        
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
 
 // 4) Simple Calculator
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
-public class SimpleCalculator extends JFrame {
-    private JTextField displayField;
-    private double firstNumber = 0;
-    private String operation = "";
-    private boolean start = true;
-    
-    public SimpleCalculator() {
-        setTitle("Simple Calculator");
-        setSize(300, 400);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+public class SimpleCalculator {
+    public static void main(String[] args) {
+        // Create main window
+        JFrame frame = new JFrame("Calculator");
+        frame.setSize(250, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
         
-        // Display field
-        displayField = new JTextField("0");
-        displayField.setHorizontalAlignment(JTextField.RIGHT);
-        displayField.setEditable(false);
-        displayField.setFont(new Font("Arial", Font.PLAIN, 24));
+        // Result display
+        JTextField display = new JTextField("0");
+        display.setHorizontalAlignment(JTextField.RIGHT);
+        display.setEditable(false);
         
         // Button panel
-        JPanel buttonPanel = new JPanel(new GridLayout(5, 4, 5, 5));
+        JPanel buttonPanel = new JPanel(new GridLayout(4, 4, 5, 5));
         
-        // Add buttons
-        String[] buttonLabels = {
-            "7", "8", "9", "/",
-            "4", "5", "6", "*",
-            "1", "2", "3", "-",
-            "0", ".", "=", "+",
-            "C", "←", "", ""
-        };
+        // Calculator variables
+        double[] number = {0};  // Using array to make it accessible in lambda
+        String[] operator = {""};
+        boolean[] startNewNumber = {true};
         
-        for (String label : buttonLabels) {
-            if (label.isEmpty()) {
-                buttonPanel.add(new JLabel());
-                continue;
-            }
-            
-            JButton button = new JButton(label);
-            button.setFont(new Font("Arial", Font.PLAIN, 18));
-            
-            if (label.matches("[0-9.]")) {
-                button.addActionListener(new NumberListener());
-            } else if (label.matches("[+\\-*/=]")) {
-                button.addActionListener(new OperationListener());
-            } else if (label.equals("C")) {
-                button.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        displayField.setText("0");
-                        start = true;
-                        firstNumber = 0;
-                        operation = "";
-                    }
-                });
-            } else if (label.equals("←")) {
-                button.addActionListener(new ActionListener() {
-                    public void actionPerformed(ActionEvent e) {
-                        String text = displayField.getText();
-                        if (text.length() > 1) {
-                            displayField.setText(text.substring(0, text.length() - 1));
-                        } else {
-                            displayField.setText("0");
-                            start = true;
-                        }
-                    }
-                });
-            }
-            
+        // Create number buttons
+        for (int i = 1; i <= 9; i++) {
+            final int digit = i;
+            JButton button = new JButton(String.valueOf(i));
+            button.addActionListener(e -> {
+                if (startNewNumber[0]) {
+                    display.setText(String.valueOf(digit));
+                    startNewNumber[0] = false;
+                } else {
+                    display.setText(display.getText() + digit);
+                }
+            });
             buttonPanel.add(button);
         }
         
-        setLayout(new BorderLayout(5, 5));
-        add(displayField, BorderLayout.NORTH);
-        add(buttonPanel, BorderLayout.CENTER);
-        
-        setVisible(true);
-    }
-    
-    private class NumberListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            String digit = ((JButton) e.getSource()).getText();
-            if (start) {
-                if (digit.equals(".")) {
-                    displayField.setText("0.");
-                } else {
-                    displayField.setText(digit);
-                }
-                start = false;
-            } else {
-                String currentText = displayField.getText();
-                if (digit.equals(".") && currentText.contains(".")) {
-                    return;
-                }
-                displayField.setText(currentText + digit);
-            }
-        }
-    }
-    
-    private class OperationListener implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            String command = ((JButton) e.getSource()).getText();
-            
-            if (start) {
-                if (command.equals("-")) {
-                    displayField.setText(command);
-                    start = false;
-                } else {
-                    operation = command;
-                }
-            } else {
-                if (operation.isEmpty()) {
-                    operation = command;
-                    firstNumber = Double.parseDouble(displayField.getText());
-                    start = true;
-                } else if (command.equals("=")) {
-                    double secondNumber = Double.parseDouble(displayField.getText());
-                    double result = calculate(firstNumber, secondNumber, operation);
-                    displayField.setText(String.valueOf(result));
-                    firstNumber = result;
-                    operation = "";
-                    start = true;
-                } else {
-                    double secondNumber = Double.parseDouble(displayField.getText());
-                    double result = calculate(firstNumber, secondNumber, operation);
-                    displayField.setText(String.valueOf(result));
-                    firstNumber = result;
-                    operation = command;
-                    start = true;
-                }
-            }
+        // Create operator buttons
+        String[] operators = {"+", "-", "*", "/"};
+        for (String op : operators) {
+            JButton button = new JButton(op);
+            button.addActionListener(e -> {
+                number[0] = Double.parseDouble(display.getText());
+                operator[0] = op;
+                startNewNumber[0] = true;
+            });
+            buttonPanel.add(button);
         }
         
-        private double calculate(double n1, double n2, String op) {
-            switch (op) {
-                case "+": return n1 + n2;
-                case "-": return n1 - n2;
-                case "*": return n1 * n2;
-                case "/": return n2 == 0 ? 0 : n1 / n2;
-                default: return n2;
-            }
-        }
-    }
-    
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new SimpleCalculator();
+        // Zero button
+        JButton zeroButton = new JButton("0");
+        zeroButton.addActionListener(e -> {
+            if (startNewNumber[0]) {
+                display.setText("0");
+                startNewNumber[0] = false;
+            } else {
+                display.setText(display.getText() + "0");
             }
         });
+        
+        // Clear button
+        JButton clearButton = new JButton("C");
+        clearButton.addActionListener(e -> {
+            display.setText("0");
+            number[0] = 0;
+            operator[0] = "";
+            startNewNumber[0] = true;
+        });
+        
+        // Equal button
+        JButton equalButton = new JButton("=");
+        equalButton.addActionListener(e -> {
+            double secondNumber = Double.parseDouble(display.getText());
+            double result = 0;
+            
+            switch (operator[0]) {
+                case "+": result = number[0] + secondNumber; break;
+                case "-": result = number[0] - secondNumber; break;
+                case "*": result = number[0] * secondNumber; break;
+                case "/": result = secondNumber != 0 ? number[0] / secondNumber : 0; break;
+            }
+            
+            display.setText(String.valueOf(result));
+            startNewNumber[0] = true;
+        });
+        
+        // Add remaining buttons
+        buttonPanel.add(zeroButton);
+        buttonPanel.add(clearButton);
+        buttonPanel.add(equalButton);
+        
+        // Add components to frame
+        frame.add(display, BorderLayout.NORTH);
+        frame.add(buttonPanel, BorderLayout.CENTER);
+        
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
 
-// 5) Voting Application
+// 5) Simple Voting Application
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class VotingApplication extends JFrame {
-    private Map<String, Integer> candidateVotes = new HashMap<>();
-    private JPanel votingPanel;
-    private JPanel resultsPanel;
-    private ButtonGroup candidateGroup;
-    
-    public VotingApplication() {
-        setTitle("Voting Application");
-        setSize(400, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        
-        // Initialize candidates
-        candidateVotes.put("Candidate A", 0);
-        candidateVotes.put("Candidate B", 0);
-        candidateVotes.put("Candidate C", 0);
-        candidateVotes.put("Candidate D", 0);
-        
-        JTabbedPane tabbedPane = new JTabbedPane();
-        
-        // Voting panel
-        votingPanel = new JPanel(new BorderLayout(10, 10));
-        votingPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        JLabel titleLabel = new JLabel("Cast Your Vote");
-        titleLabel.setFont(new Font("Arial", Font.BOLD, 18));
-        titleLabel.setHorizontalAlignment(JLabel.CENTER);
-        
-        JPanel candidatePanel = new JPanel(new GridLayout(0, 1, 5, 5));
-        candidatePanel.setBorder(BorderFactory.createTitledBorder("Select a Candidate"));
-        
-        candidateGroup = new ButtonGroup();
-        
-        for (String candidate : candidateVotes.keySet()) {
-            JRadioButton radioButton = new JRadioButton(candidate);
-            candidateGroup.add(radioButton);
-            candidatePanel.add(radioButton);
-        }
-        
-        JButton voteButton = new JButton("Vote");
-        voteButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                boolean voted = false;
-                
-                for (Component comp : candidatePanel.getComponents()) {
-                    if (comp instanceof JRadioButton) {
-                        JRadioButton radioButton = (JRadioButton) comp;
-                        if (radioButton.isSelected()) {
-                            String candidate = radioButton.getText();
-                            candidateVotes.put(candidate, candidateVotes.get(candidate) + 1);
-                            voted = true;
-                            break;
-                        }
-                    }
-                }
-                
-                if (voted) {
-                    candidateGroup.clearSelection();
-                    updateResults();
-                    JOptionPane.showMessageDialog(null, "Vote cast successfully!");
-                    tabbedPane.setSelectedIndex(1); // Switch to results tab
-                } else {
-                    JOptionPane.showMessageDialog(null, "Please select a candidate!");
-                }
-            }
-        });
-        
-        votingPanel.add(titleLabel, BorderLayout.NORTH);
-        votingPanel.add(candidatePanel, BorderLayout.CENTER);
-        votingPanel.add(voteButton, BorderLayout.SOUTH);
-        
-        // Results panel
-        resultsPanel = new JPanel(new BorderLayout(10, 10));
-        resultsPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-        
-        JLabel resultsTitle = new JLabel("Election Results");
-        resultsTitle.setFont(new Font("Arial", Font.BOLD, 18));
-        resultsTitle.setHorizontalAlignment(JLabel.CENTER);
-        
-        JPanel resultsDisplay = new JPanel(new GridLayout(0, 2, 10, 10));
-        resultsDisplay.setBorder(BorderFactory.createTitledBorder("Current Vote Count"));
-        
-        // Initial results display will be updated
-        updateResultsPanel(resultsDisplay);
-        
-        JButton refreshButton = new JButton("Refresh Results");
-        refreshButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                updateResults();
-            }
-        });
-        
-        resultsPanel.add(resultsTitle, BorderLayout.NORTH);
-        resultsPanel.add(resultsDisplay, BorderLayout.CENTER);
-        resultsPanel.add(refreshButton, BorderLayout.SOUTH);
-        
-        // Add panels to tabbed pane
-        tabbedPane.addTab("Vote", votingPanel);
-        tabbedPane.addTab("Results", resultsPanel);
-        
-        add(tabbedPane);
-        setVisible(true);
-    }
-    
-    private void updateResults() {
-        Component[] components = resultsPanel.getComponents();
-        for (Component comp : components) {
-            if (comp instanceof JPanel && ((JPanel)comp).getBorder() != null) {
-                JPanel resultsDisplay = (JPanel) comp;
-                updateResultsPanel(resultsDisplay);
-                break;
-            }
-        }
-    }
-    
-    private void updateResultsPanel(JPanel panel) {
-        panel.removeAll();
-        
-        for (Map.Entry<String, Integer> entry : candidateVotes.entrySet()) {
-            panel.add(new JLabel(entry.getKey() + ":"));
-            panel.add(new JLabel(entry.getValue() + " votes"));
-        }
-        
-        panel.revalidate();
-        panel.repaint();
-    }
-    
+public class SimpleVoting {
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                new VotingApplication();
+        // Create main window
+        JFrame frame = new JFrame("Voting App");
+        frame.setSize(300, 250);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new BorderLayout());
+        
+        // Create components
+        JPanel votingPanel = new JPanel(new GridLayout(0, 1));
+        
+        JLabel titleLabel = new JLabel("Select a candidate:");
+        votingPanel.add(titleLabel);
+        
+        // Initialize candidates and votes
+        Map<String, Integer> votes = new HashMap<>();
+        votes.put("Candidate A", 0);
+        votes.put("Candidate B", 0);
+        votes.put("Candidate C", 0);
+        
+        // Create radio buttons
+        ButtonGroup group = new ButtonGroup();
+        Map<String, JRadioButton> radioButtons = new HashMap<>();
+        
+        for (String candidate : votes.keySet()) {
+            JRadioButton button = new JRadioButton(candidate);
+            radioButtons.put(candidate, button);
+            group.add(button);
+            votingPanel.add(button);
+        }
+        
+        // Vote button
+        JButton voteButton = new JButton("Vote");
+        votingPanel.add(voteButton);
+        
+        // Results area
+        JTextArea resultsArea = new JTextArea();
+        resultsArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(resultsArea);
+        
+        // Update results function
+        Runnable updateResults = () -> {
+            resultsArea.setText("Results:\n");
+            for (Map.Entry<String, Integer> entry : votes.entrySet()) {
+                resultsArea.append(entry.getKey() + ": " + entry.getValue() + " votes\n");
+            }
+        };
+        
+        // Initial results display
+        updateResults.run();
+        
+        // Add action to vote button
+        voteButton.addActionListener(e -> {
+            boolean voted = false;
+            
+            for (Map.Entry<String, JRadioButton> entry : radioButtons.entrySet()) {
+                if (entry.getValue().isSelected()) {
+                    String candidate = entry.getKey();
+                    votes.put(candidate, votes.get(candidate) + 1);
+                    voted = true;
+                    break;
+                }
+            }
+            
+            if (voted) {
+                group.clearSelection();
+                updateResults.run();
+                JOptionPane.showMessageDialog(frame, "Vote recorded!");
+            } else {
+                JOptionPane.showMessageDialog(frame, "Please select a candidate");
             }
         });
+        
+        // Add panels to frame
+        frame.add(votingPanel, BorderLayout.NORTH);
+        frame.add(scrollPane, BorderLayout.CENTER);
+        
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
     }
 }
