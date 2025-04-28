@@ -118,61 +118,49 @@ public class SimpleHospital {
 // 3) Simple Chat Application
 import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 
 public class SimpleChat {
     public static void main(String[] args) {
-        // Create main window
         JFrame frame = new JFrame("Chat App");
-        frame.setSize(300, 400);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLayout(new BorderLayout());
-        
-        // Chat display area
-        JTextArea chatArea = new JTextArea();
+        JTextArea chatArea = new JTextArea(); 
         chatArea.setEditable(false);
-        JScrollPane scrollPane = new JScrollPane(chatArea);
-        
-        // Message input area
-        JPanel inputPanel = new JPanel(new BorderLayout());
         JTextField messageField = new JTextField();
         JButton sendButton = new JButton("Send");
-        
-        // User selection
-        JPanel userPanel = new JPanel();
-        JRadioButton user1 = new JRadioButton("User 1", true);
-        JRadioButton user2 = new JRadioButton("User 2");
-        ButtonGroup userGroup = new ButtonGroup();
-        userGroup.add(user1);
-        userGroup.add(user2);
-        userPanel.add(user1);
-        userPanel.add(user2);
-        
-        // Add action to send button
+
         sendButton.addActionListener(e -> {
-            String message = messageField.getText();
-            if (!message.isEmpty()) {
-                String user = user1.isSelected() ? "User 1" : "User 2";
-                chatArea.append(user + ": " + message + "\n");
+            String msg = messageField.getText().trim();
+            if (!msg.isEmpty()) {
+                chatArea.append("You: " + msg + "\n");
                 messageField.setText("");
+                // Predefined bot reply
+                chatArea.append("Bot: " + getReply(msg) + "\n");
             }
         });
-        
-        // Also allow sending with Enter key
+
         messageField.addActionListener(e -> sendButton.doClick());
-        
-        // Add components to panels
-        inputPanel.add(messageField, BorderLayout.CENTER);
-        inputPanel.add(sendButton, BorderLayout.EAST);
-        
-        // Add panels to frame
-        frame.add(userPanel, BorderLayout.NORTH);
-        frame.add(scrollPane, BorderLayout.CENTER);
-        frame.add(inputPanel, BorderLayout.SOUTH);
-        
+
+        JPanel inputPanel = new JPanel(new java.awt.BorderLayout());
+        inputPanel.add(messageField, "Center");
+        inputPanel.add(sendButton, "East");
+
+        frame.add(new JScrollPane(chatArea), "Center");
+        frame.add(inputPanel, "South");
+        frame.setSize(300, 400);
+        frame.setDefaultCloseOperation(3);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
+    static String getReply(String userMessage) {
+        // Simple predefined responses
+        if (userMessage.toLowerCase().contains("hello")) return "Hi there!";
+        if (userMessage.toLowerCase().contains("how are you")) return "I'm just a bot, but I'm good!";
+        if (userMessage.toLowerCase().contains("bye")) return "Goodbye! See you soon.";
+        return "I don't understand.";
+    }
 }
+
 
 // 4) Simple Calculator
 import javax.swing.*;
